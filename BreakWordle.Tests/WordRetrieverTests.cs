@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BreakWordle.Business.Library;
+using BreakWordle.Business;
 using System.Linq;
 
 namespace BreakWordle.Tests

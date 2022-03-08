@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BreakWordle.Business.Library
+namespace BreakWordle.Business
 {
-    public interface ISpellChecker
+    public interface ISpellCheckerService
     {
         /// <summary>
         /// Gets a value indicating whether a given string represents a valid English word.
@@ -14,12 +14,12 @@ namespace BreakWordle.Business.Library
         bool IsEnglishWord(string word);
     }
 
-    public class SpellChecker : ISpellChecker
+    public class SpellChecker : ISpellCheckerService
     {
-        private readonly IWordRetriever _wordRetriever;
+        private readonly IWordRetrieverService _wordRetriever;
         private readonly HashSet<string> _wordSet;
 
-        public SpellChecker(IWordRetriever wordRetriever)
+        public SpellChecker(IWordRetrieverService wordRetriever)
         {
             _wordRetriever = wordRetriever;
             _wordSet = new HashSet<string>(_wordRetriever.GetWords());

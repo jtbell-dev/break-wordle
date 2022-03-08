@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BreakWordle.Business.Library
+namespace BreakWordle.Business
 {
-    public interface IWordRetriever
+    public interface IWordRetrieverService
     {
         /// <summary>
         /// Gets a list of words from a source.
@@ -19,7 +19,7 @@ namespace BreakWordle.Business.Library
     /// <summary>
     /// Gets five letter words from list provided by https://github.com/dwyl/english-words
     /// </summary>
-    public class FiveLetterWordRetriever : IWordRetriever
+    public class FiveLetterWordRetriever : IWordRetrieverService
     {
         private readonly string _sourceFile = "words_alpha.txt";
         private IEnumerable<string> _wordSingleton;

@@ -30,7 +30,10 @@ namespace BreakWordle.Tests
                 { 'N', 1 },
                 { 'O', 2 },
                 { 'R', 2 },
-                { 'T', 2 }
+                { 'T', 2 },
+                { 't', 2 },
+                { 'Z', 0 },
+                { 'z', 0 }
             };
 
             var service = new LetterWeightService(words);
