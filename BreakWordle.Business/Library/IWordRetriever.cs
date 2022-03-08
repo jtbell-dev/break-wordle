@@ -15,6 +15,9 @@ namespace BreakWordle.Business.Library
         IEnumerable<string> GetWords();
     }
 
+    /// <summary>
+    /// Gets five letter words from list provided by https://github.com/dwyl/english-words
+    /// </summary>
     public class FiveLetterWordRetriever : IWordRetriever
     {
         private readonly string _sourceFile = "words_alpha.txt";
