@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace BreakWordle.Business.Library
 {
@@ -32,12 +33,12 @@ namespace BreakWordle.Business.Library
         {
             if (_wordSingleton is null)
             {
+                var r = new Regex(@"^[a-zA-Z]{5}$");
                 var sourcePath = Path.Combine(Environment.CurrentDirectory, Constants.WORD_FILES_FOLDERNAME, _sourceFile);
                 _wordSingleton = 
                     File.ReadAllLines(sourcePath)
-                    .Where(line => 
-                        !string.IsNullOrEmpty(line) && 
-                        line.Trim().Length == 5);
+                    .Where(line => r.IsMatch(line.Trim()))
+                    .Select(line => r.Match(line).Value);
             }
 
             return _wordSingleton;
