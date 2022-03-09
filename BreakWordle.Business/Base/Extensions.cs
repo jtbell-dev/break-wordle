@@ -9,10 +9,16 @@ namespace BreakWordle.Business.Base
     {
         public static IServiceCollection AddBusinessServices(this IServiceCollection services)
         {
-            services.AddSingleton<IWordRetrieverService, FiveLetterWordRetriever>();
+            // get words
+            var letterService = new FiveLetterWordRetrieverService();
+            var words = letterService.GetWords();
+            services.AddSingleton(words);
+            services.AddSingleton<IWordRetrieverService, FiveLetterWordRetrieverService>();
             services.AddSingleton<ISpellCheckerService, SpellCheckerService>();
             services.AddSingleton<ILetterWeightService, LetterWeightService>();
             services.AddSingleton<IWordWeightService, WordWeightService>();
+
+            services.AddScoped<BreakWordleBL>();
 
             return services;
         }

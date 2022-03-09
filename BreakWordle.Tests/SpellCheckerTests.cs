@@ -19,7 +19,7 @@ namespace BreakWordle.Tests
                 "oater"
             };
 
-            var wordRetriever = new FiveLetterWordRetriever();
+            var wordRetriever = new FiveLetterWordRetrieverService();
             var service = new SpellCheckerService(wordRetriever);
             foreach (var word in words)
             {
