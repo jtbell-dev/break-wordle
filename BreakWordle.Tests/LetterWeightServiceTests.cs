@@ -12,13 +12,6 @@ namespace BreakWordle.Tests
         [TestMethod]
         public void TestLetterWeightService()
         {
-            var words = new string[]
-            {
-                "adieu",
-                "snort",
-                "oater"
-            };
-
             var expectedWeights = new Dictionary<char, long>()
             {
                 { 'A', 2 },
@@ -36,7 +29,8 @@ namespace BreakWordle.Tests
                 { 'z', 0 }
             };
 
-            var service = new LetterWeightService(words);
+            var wordRetrieverService = new TestWordRetrieverService();
+            var service = new LetterWeightService(wordRetrieverService);
             foreach (var letter in expectedWeights.Keys)
             {
                 var expectedWeight = expectedWeights[letter];

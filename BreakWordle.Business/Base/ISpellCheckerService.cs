@@ -16,13 +16,13 @@ namespace BreakWordle.Business
 
     public class SpellCheckerService : ISpellCheckerService
     {
-        private readonly IWordRetrieverService _wordRetriever;
+        private readonly IWordRetrieverService _wordRetrieverService;
         private readonly HashSet<string> _wordSet;
 
         public SpellCheckerService(IWordRetrieverService wordRetriever)
         {
-            _wordRetriever = wordRetriever;
-            _wordSet = new HashSet<string>(_wordRetriever.GetWords());
+            _wordRetrieverService = wordRetriever;
+            _wordSet = new HashSet<string>(_wordRetrieverService.GetWords());
         }
 
         public bool IsEnglishWord(string word)

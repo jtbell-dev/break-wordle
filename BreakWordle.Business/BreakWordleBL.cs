@@ -10,6 +10,7 @@ namespace BreakWordle.Business
     public class BreakWordleBL
     {
         private readonly IWordWeightService _wordWeightService;
+        private readonly IWordRetrieverService _wordRetrieverService;
         private readonly IEnumerable<string> _wordList;
 
         /// <summary>
@@ -19,10 +20,11 @@ namespace BreakWordle.Business
         /// <param name="wordList"></param>
         public BreakWordleBL(
             IWordWeightService wordWeightService,
-            IEnumerable<string> wordList)
+            IWordRetrieverService wordRetrieverService)
         {
             _wordWeightService = wordWeightService;
-            _wordList = wordList;
+            _wordRetrieverService = wordRetrieverService;
+            _wordList = _wordRetrieverService.GetWords();
         }
 
         /// <summary>

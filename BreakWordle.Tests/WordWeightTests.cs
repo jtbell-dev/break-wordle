@@ -1,4 +1,5 @@
 ﻿using BreakWordle.Business;
+using BreakWordle.Business.Strategies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,6 @@ namespace BreakWordle.Tests
         [TestMethod]
         public void TestWordWeightService()
         {
-            var words = new string[]
-            {
-                "adieu",
-                "snort",
-                "oater"
-            };
-
             var expectedWeights = new Dictionary<string, long>()
             {
                 // LETTER WEIGHTS:
@@ -38,8 +32,10 @@ namespace BreakWordle.Tests
                 { "oater", 10 }
             };
 
-            var letterWeightService = new LetterWeightService(words);
-            var service = new WordWeightService(letterWeightService, words);
+            var wordRetrieverService = new TestWordRetrieverService();
+            var letterWeightService = new LetterWeightService(wordRetrieverService);
+            var wordWeightStrategy = new FrequencyWeightStrategy(wordRetrieverService, letterWeightService);
+            var service = new WordWeightService(wordRetrieverService, wordWeightStrategy);
             foreach (var word in expectedWeights.Keys)
             {
                 var expectedWeight = expectedWeights[word];

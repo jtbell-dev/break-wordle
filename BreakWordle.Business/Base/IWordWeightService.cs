@@ -18,7 +18,8 @@ namespace BreakWordle.Business
     {        
         private Dictionary<string, long> _wordWeights;
         private readonly IEnumerable<string> _sourceWords;
-        private readonly ILetterWeightService _letterWeightService;
+        private readonly IWordRetrieverService _wordRetrieverService;
+        private readonly IWordWeightStrategy _wordWeightStrategy;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WordWeightService"/> class.
@@ -28,11 +29,14 @@ namespace BreakWordle.Business
         /// </remarks>
         /// <param name="letterWeightService">The letter weight service.</param>
         /// <param name="sourceWords">The list of words.</param>
-        public WordWeightService(ILetterWeightService letterWeightService, IEnumerable<string> sourceWords)
+        public WordWeightService(
+            IWordRetrieverService wordRetrieverService,
+            IWordWeightStrategy wordWeightStrategy)
         {
+            _wordRetrieverService = wordRetrieverService ?? throw new ArgumentNullException(nameof(wordRetrieverService));
+            _wordWeightStrategy = wordWeightStrategy ?? throw new ArgumentNullException(nameof(wordWeightStrategy));
+            _sourceWords = _wordRetrieverService.GetWords();
             _wordWeights = new Dictionary<string, long>();
-            _sourceWords = sourceWords ?? throw new ArgumentNullException(nameof(sourceWords));
-            _letterWeightService = letterWeightService ?? throw new ArgumentNullException(nameof(letterWeightService));
             BuildWordWeights();
         }
 
@@ -59,15 +63,7 @@ namespace BreakWordle.Business
         {
             foreach (var word in _sourceWords)
             {
-                if (!_wordWeights.TryGetValue(word, out var weight))
-                {
-                    _wordWeights.Add(word, 0);
-                }
-
-                foreach (var letter in word)
-                {
-                    _wordWeights[word] += _letterWeightService.GetLetterWeight(letter);
-                }
+                _wordWeights.Add(word, _wordWeightStrategy.GetWordWeight(word));
             }
         }
     }
