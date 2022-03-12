@@ -19,12 +19,12 @@ namespace BreakWordle.Business
     /// <summary>
     /// Gets five letter words from list provided by https://github.com/dwyl/english-words
     /// </summary>
-    public class FiveLetterWordRetriever : IWordRetrieverService
+    public class FiveLetterWordRetrieverService : IWordRetrieverService
     {
         private readonly string _sourceFile = "words_alpha.txt";
         private IEnumerable<string> _wordSingleton;
 
-        public FiveLetterWordRetriever()
+        public FiveLetterWordRetrieverService()
         {
 
         }

@@ -8,12 +8,12 @@ namespace BreakWordle.Tests
     public class WordRetrieverTests
     {
         /// <summary>
-        /// Verify functionality of <see cref="FiveLetterWordRetriever"/> service.
+        /// Verify functionality of <see cref="FiveLetterWordRetrieverService"/> service.
         /// </summary>
         [TestMethod]
         public void TestLibraryImport()
         {
-            var wordRetriever = new FiveLetterWordRetriever();
+            var wordRetriever = new FiveLetterWordRetrieverService();
             var lib = wordRetriever.GetWords();
             Assert.IsNotNull(lib);
             Assert.IsTrue(lib.Any());
