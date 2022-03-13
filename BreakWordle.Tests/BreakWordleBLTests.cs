@@ -13,14 +13,34 @@ namespace BreakWordle.Tests
     public class BreakWordleBLTests
     {
         [TestMethod]
-        public void TestBreakWordleBL()
+        public void TestBreakWordleBL_FrequencyAndPositionWeightStrategy()
         {
             var wordRetrieverService = new FiveLetterWordRetrieverService();
             var spellCheckerService = new SpellCheckerService(wordRetrieverService);
             var letterWeightService = new LetterWeightService(wordRetrieverService);
             var wordWeightStrategy = new CompositeWeightStrategy(wordRetrieverService, new List<IWordWeightStrategy>()
             {
-                new FrequencyAndPositionWeightStrategy(wordRetrieverService, letterWeightService),
+                new FrequencyAndPositionWeightStrategy(wordRetrieverService, letterWeightService)
+            });
+            var wordWeightService = new WordWeightService(wordRetrieverService, wordWeightStrategy);
+            var bl = new BreakWordleBL(wordWeightService, wordRetrieverService);
+            var results = bl.GetBestStartingWords(5);
+            Debug.WriteLine($"WORDS: {string.Join(", ", results)}");
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+            Assert.AreEqual(5, results.Count());
+
+            // WORDS: tares, colin, dumpy, hewgh, jakob
+        }
+
+        [TestMethod]
+        public void TestBreakWordleBL_FrequencyWeightStrategy_PositionWeightStrategy()
+        {
+            var wordRetrieverService = new FiveLetterWordRetrieverService();
+            var spellCheckerService = new SpellCheckerService(wordRetrieverService);
+            var letterWeightService = new LetterWeightService(wordRetrieverService);
+            var wordWeightStrategy = new CompositeWeightStrategy(wordRetrieverService, new List<IWordWeightStrategy>()
+            {
                 new FrequencyWeightStrategy(wordRetrieverService, letterWeightService),
                 new PositionWeightStrategy(wordRetrieverService, letterWeightService)
             });
@@ -32,11 +52,49 @@ namespace BreakWordle.Tests
             Assert.IsTrue(results.Any());
             Assert.AreEqual(5, results.Count());
 
-            // FIRST RUN:
-            // WORDS: arose, unlit, pygmy, chawk, fazed
-
-            // SECOND RUN:
             // WORDS: tares, colin, dumpy, hewgh, jakob
+        }
+
+        [TestMethod]
+        public void TestBreakWordleBL_FrequencyWeightStrategy()
+        {
+            var wordRetrieverService = new FiveLetterWordRetrieverService();
+            var spellCheckerService = new SpellCheckerService(wordRetrieverService);
+            var letterWeightService = new LetterWeightService(wordRetrieverService);
+            var wordWeightStrategy = new CompositeWeightStrategy(wordRetrieverService, new List<IWordWeightStrategy>()
+            {
+                new FrequencyWeightStrategy(wordRetrieverService, letterWeightService)
+            });
+            var wordWeightService = new WordWeightService(wordRetrieverService, wordWeightStrategy);
+            var bl = new BreakWordleBL(wordWeightService, wordRetrieverService);
+            var results = bl.GetBestStartingWords(5);
+            Debug.WriteLine($"WORDS: {string.Join(", ", results)}");
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+            Assert.AreEqual(5, results.Count());
+
+            // WORDS: arose, unlit, pygmy, chawk, fazed
+        }
+
+        [TestMethod]
+        public void TestBreakWordleBL_PositionWeightStrategy()
+        {
+            var wordRetrieverService = new FiveLetterWordRetrieverService();
+            var spellCheckerService = new SpellCheckerService(wordRetrieverService);
+            var letterWeightService = new LetterWeightService(wordRetrieverService);
+            var wordWeightStrategy = new CompositeWeightStrategy(wordRetrieverService, new List<IWordWeightStrategy>()
+            {
+                new PositionWeightStrategy(wordRetrieverService, letterWeightService)
+            });
+            var wordWeightService = new WordWeightService(wordRetrieverService, wordWeightStrategy);
+            var bl = new BreakWordleBL(wordWeightService, wordRetrieverService);
+            var results = bl.GetBestStartingWords(5);
+            Debug.WriteLine($"WORDS: {string.Join(", ", results)}");
+            Assert.IsNotNull(results);
+            Assert.IsTrue(results.Any());
+            Assert.AreEqual(5, results.Count());
+
+            // WORDS: cares, boily, punkt, zhmud, jaggs
         }
     }
 }
